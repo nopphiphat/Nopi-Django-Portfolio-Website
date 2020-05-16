@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Jekyll v4.0.1">
+	<title>Nopphiphat Suraminitkul</title>
+
+	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" href="/docs/4.5/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/docs/4.5/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="icon" href="/docs/4.5/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+	<link rel="manifest" href="/docs/4.5/assets/img/favicons/manifest.json">
+	<link rel="mask-icon" href="/docs/4.5/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
+	<link rel="icon" href="/docs/4.5/assets/img/favicons/favicon.ico">
+	<meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#563d7c">
+
+	<style>
+		.bd-placeholder-img {
+		font-size: 1.125rem;
+		text-anchor: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+			  font-size: 3.5rem;
+			}
+  		}
+	</style>
+	<!-- Custom styles for this template -->
+	<link href="album.css" rel="stylesheet">
+</head>
+
+<body>
+	<main role="main">
+
+	<section class="jumbotron text-center">
+	<div class="container">
+		<h1>Nopphiphat Suraminitkul</h1>
+		<p class="lead text-muted">Hello! I am Nopphiphat Suraminitkul, recent graduate student from George Washington University (GWU) with my second MS in Computer Science degree. I have previously completed my first MS in Technology Managment with concentration in Business Data Analytics at the University of Illinois at Urbana-Champaign (UIUC). My programming experiences in Python and R was honed and further improved during my time as Statistical Consultant at GWU and tested on the different projects that I have accomplished in my various projects on GitHub. My past work experiences were mainly data analyst, where I have sourced and cleaned data, built models to forecast sales for my companies, and created visualizations to convey the insights to the top-management groups.</p>
+		<p>
+			<a href="mailto:nopphiphat0305@gwu.edu" class="btn btn-primary my-2">Email Me</a>
+			<a href="https://www.linkedin.com/in/nopphiphat/" class="btn btn-secondary my-2">LinkedIn</a>
+			<a href="https://github.com/nopphiphat/" class="btn btn-secondary my-2">GitHub</a>
+		</p>
+		<img src="{% static 'nopi_pic.jpeg' %}" height = 300px></img>
+	</div>
+	</section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+      	{% for job in jobs.all %}
+        <div class="col-md-4">
+			<a href = "{% url 'detail' job.id %}">
+				<div class="card mb-4 shadow-sm">
+				<img class="card-img-top" src="{{ job.image.url }}" height=150px></img>
+				<div class="card-body">
+				  <p class="card-text">{{ job.summary }}</p>
+				</div>
+				</div>
+			</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a href="/docs/4.5/getting-started/introduction/">getting started guide</a>.</p>
+  </div>
+</footer>
+<script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+      </body>
+</html>
