@@ -1,0 +1,174 @@
+<!--Ticket Website (Project)
+	Components that cover (3 Apps) Events, Blog, Accounts
+	Run the server
+-->
+django-admin startproject portfolio
+python3 manage.py runserver
+
+<!--Add app call jobs in project root folder
+	Add 'jobs' to part of the INSTALLED_APPS list under settings.py
+	Go to http://127.0.0.1:8000/
+	Check if the website is still working
+-->
+django-admin startapp jobs
+
+<!--Add links to the urlpatterns in the urls.py
+	import views from jobs
+	Add the name that goes after the current path
+
+	from django.contrib import admin
+	from django.urls import path
+	from jobs import views
+	urlpatterns = [
+	    path('admin/', admin.site.urls),
+	    path('', views.home, name='home'),
+	]
+
+	Inside views.py, create function with that name that returns html
+	Create nopi.html inside jobs folder insider templates folder in jobs
+-->
+
+<!--Django and Databases
+	Create Job class inside models.py
+	Inside the class, add image and summary
+	Install pillow library
+-->
+pip3 install pillow
+
+<!--Install PostgreSQL;	Switch over to postgres account on server https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04-->
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo -i -u postgres psql
+<!--OR accessing a postgres prompt without switching accounts-->
+sudo -u postgres psql
+
+<!--Creating new role in postgres
+	If logged in as postgres account
+-->
+createuser --interactive
+<!--OR from sudo command without switching from normal account-->
+sudo -u postgres createuser --interactive
+
+<!--Creating password for postgres from terminal-->
+sudo -u postgres psql
+\password postgres
+123
+123
+
+<!--Create new database name portfoliodb
+	Inside settings.py, go to DATABASES
+	Change the database information:
+		DATABASES = {
+		    'default': {
+		        'ENGINE': 'django.db.backends.postgresql',
+		        'NAME': 'portfoliodb',
+		        'USER': 'postgres',
+		        'PASSWORD': '123',
+		        'HOST': 'localhost',
+		        'PORT': '5432',
+		    }
+		}
+	Install psycopg2 in terminal using pip3 install Psycopg2
+-->
+CREATE DATABASE portfoliodb;
+sudo apt-get install libpq-dev
+pip3 install Psycopg2
+
+<!--Migrations
+	Anytime when adding or make changes to the models.py, run the makemigrations
+	Then migrate it
+	Check it by running the runserver -> localhost/admin
+-->
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+<!--Create superuser
+	Usr: pymachine
+	Pwd: 123
+-->
+python3 manage.py createsuperuser
+
+<!--Admin.py
+	Make the admin site registers the Job class, thus can add job
+	from django.contrib import admin
+	from .models import Job
+	admin.site.register(Job)
+-->
+
+<!--Views.py
+	Import Job class from models
+	Call Job.objects and assign them to jobs
+	Then assign the list of job objects to key call jobs
+
+	from django.shortcuts import render
+	from .models import Job
+	def home(request):
+		jobs = Job.objects
+		return render(request, 'jobs/home.html', {'jobs':jobs})
+-->
+
+<!--Update the home.html page
+	Code:
+		<h1>All my jobs</h1>
+		{% for job in jobs.all %}
+		{{ job.summary }}
+		{% endfor %}
+
+	Go to Bootstrap website at "https://getbootstrap.com/"
+	Then go to "Examples" on the top bar
+	Then click "Album" under "Custom components"
+	Right click to "View Page Source" to get HTML source page
+	copy the HTML from the page and paste it below the code
+	Then go to "https://getbootstrap.com/docs/4.5/getting-started/introduction/"
+	Copy the CSS:
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	Paste it to the appropriate location in the <head>
+	Copy the JS:
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	Paste it to the bottom below the footer and above the end of body tag
+	Delete the header portion
+	Modify the content of the body
+	Delete all but 1 column
+-->
+
+<!--Settings.py
+	Add the following code below "STATIC_URL = '/static/'"
+		# Add static_root that joins the base_dir to 'static'
+		STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+	collectstatic will search through the entire Django project and see if there's any folders named static where it needs to add things into the collective static folder.
+-->
+python3 manage.py collectstatic
+
+<!--Add the following code below the "<html lang="en">" of the home.html page
+		{% load static %}
+	Add the following code in the div section of the body after the profile introduction of the home.html page
+		<img src="{% static 'nopi_pic.jpeg' %}" height = 300px></img>
+-->
+
+<!--To make the css and js static
+	Download them from the "https://getbootstrap.com/docs/4.5/getting-started/download/" website
+	Save link of jQuery from "Download the compressed production jQuery 3.5.1"
+	Go to https://popper.js.org/	-> get the data popper.min.js
+	Perform collectstatic
+-->
+python3 manage.py collectstatic
+
+<!--Update the home html
+	<link rel="stylesheet" href="{ % static 'css/bootstrap.min.css' %}">
+	<script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+-->
+
+<!--Accessing data {{ variable_name }}-->
+
+<!--Next Step-->
+Check out djangoproject.com
+Class based views
+Authentication
+REST APIs
+
+Deploy your website
+- Digital Ocean (AWS)
